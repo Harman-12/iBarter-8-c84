@@ -1,14 +1,21 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import WelcomeScreen from './screens/WelcomeScreen.js';
+import {bottomTabNavigator} from './components/bottomTabNavigator';
+import { createAppContainer, createSwitchNavigator} from 'react-navigation';
+import WelcomeScreen from './screens/WelcomeScreen';
 
-export default class App extends React.Component {
-  render() {
+export default function App() {
   return (
-    <View style={{flex:1}}>
-    <WelcomeScreen/>
-    
-    </View>
+    <AppContainer/>
   );
 }
-}
+
+
+
+
+const switchNavigator = createSwitchNavigator({
+  WelcomeScreen:{screen: WelcomeScreen},
+  bottomTabNavigator:{screen: bottomTabNavigator}
+})
+
+const AppContainer =  createAppContainer(switchNavigator);
