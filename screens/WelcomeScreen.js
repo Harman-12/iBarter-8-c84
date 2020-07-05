@@ -22,7 +22,7 @@ export default class WelcomeScreen extends Component {
   userLogin = (username, password)=>{
     firebase.auth().signInWithEmailAndPassword(username, password)
     .then(()=>{
-      this.props.navigation.navigate('bottomTabNavigator')
+      this.props.navigation.navigate('AppDrawerNavigation')
     })
     .catch((error)=> {
       var errorCode = error.code;
