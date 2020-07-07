@@ -7,8 +7,11 @@ import customSideBarMenu from '../components/customSideBarMenu';
 import {bottomTabNavigator} from '../components/bottomTabNavigator';
 
 export const AppDrawerNavigation = createDrawerNavigator({
+  '-' : {
+    screen : bottomTabNavigator,
+    },
     Home : {
-      screen : bottomTabNavigator
+      screen : bottomTabNavigator,
       },
     Settings : {
       screen : SettingsScreen

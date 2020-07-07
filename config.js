@@ -1,19 +1,18 @@
-const firebase = require("firebase");
-// Required for side-effects
-require("firebase/firestore");
+import * as firebase from 'firebase'
+import 'firebase/firestore';
 
-var firebaseConfig = {
-  apiKey: "AIzaSyDXGaoFtoJylxevfeZT-HagdJnM7pKcoJo",
-  authDomain: "book-santa-50b98.firebaseapp.com",
-  databaseURL: "https://book-santa-50b98.firebaseio.com",
-  projectId: "book-santa-50b98",
-  storageBucket: "book-santa-50b98.appspot.com",
-  messagingSenderId: "932613271384",
-  appId: "1:932613271384:web:dc74afb3da6485cb61bf2d",
-  measurementId: "G-1CLB3SXT6Z"
+const firebaseConfig = {
+  apiKey: "AIzaSyDZ3CspfCF179JE5nxxd3XxI21e3CSnNws",
+  authDomain: "ibarter.firebaseapp.com",
+  databaseURL: "https://ibarter.firebaseio.com",
+  projectId: "ibarter",
+  storageBucket: "ibarter.appspot.com",
+  messagingSenderId: "328655958011",
+  appId: "1:328655958011:web:ac830499970a0b0dc6655e",
+  measurementId: "G-K180BMKQEB"
 };
   // Initialize Firebase
   
   firebase.initializeApp(firebaseConfig);
-  var db = firebase.firestore();
+  const db = firebase.firestore();
   export default db;

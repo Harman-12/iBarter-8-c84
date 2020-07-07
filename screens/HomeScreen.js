@@ -3,8 +3,9 @@ import { View, StyleSheet, Text, FlatList,TouchableOpacity } from 'react-native'
 import { ListItem } from 'react-native-elements'
 import AppHeader from '../components/AppHeader'
 
-import db from '../config'
-import * as firebase from 'firebase';
+import * as firebase from 'firebase'
+import 'firebase/firestore';
+import db from '../config';
 
 export default class HomeScreen extends Component{
   constructor(){
@@ -16,7 +17,7 @@ export default class HomeScreen extends Component{
   }
 
   getAllRequests =()=>{
-    this.requestRef = db.collection("exchange_requests")
+    this.requestRef = db.collection('exchange_requests')
     .onSnapshot((snapshot)=>{
       var allRequests = []
       snapshot.forEach((doc) => {
@@ -37,9 +38,10 @@ export default class HomeScreen extends Component{
         title={item.item_name}
         subtitle={item.description}
         titleStyle={{ color: 'blue', fontWeight: 'bold' }}
+        subtitleStyle={{ color: 'orange' }}
         rightElement={
             <TouchableOpacity style={styles.button}>
-              <Text style={{color:'#ff5722'}}>Exchange</Text>
+              <Text style={{color:'white'}}>Exchange</Text>
             </TouchableOpacity>
           }
         bottomDivider
@@ -58,7 +60,7 @@ export default class HomeScreen extends Component{
   render(){
     return(
       <View style={{flex:1}}>
-        <AppHeader/>
+        <AppHeader navigation ={this.props.navigation}/>
         <View style={{flex:1}}>
           {
             this.state.allRequests.length === 0

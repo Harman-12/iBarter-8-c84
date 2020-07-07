@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, Image, Modal, TouchableOpacity,TextInput, Alert, KeyboardAvoidingView, ScrollView } from 'react-native';
 import BarterAnimation from '../components/barterAnimation.js';
-import db from '../config';
 import * as firebase from 'firebase'
+import 'firebase/firestore';
+import db from '../config';
 
 export default class WelcomeScreen extends Component {
   constructor(){
@@ -31,18 +32,18 @@ export default class WelcomeScreen extends Component {
     })
   }
 
-  userSignUp = (username, password,confirmPassword) =>{
+  userSignUp=(username, password, confirmPassword) =>{
     if(password !== confirmPassword){
         return Alert.alert("password doesn't match\nCheck your password.")
     }else{
       firebase.auth().createUserWithEmailAndPassword(username, password)
       .then((response)=>{
-        db.collection("users").add({
-          "first_name": this.state.firstName,
-          "last_name": this.state.lastName,
-          "mobile_number": this.state.mobileNumber,
-          "username": this.state.username,
-          "address": this.state.address
+        db.collection('users').add({
+          'first_name': this.state.firstName,
+          'last_name': this.state.lastName,
+          'mobile_number': this.state.mobileNumber,
+          'username': this.state.username,
+          'address': this.state.address
         })
         .catch(function(error) {
           console.error("Error adding document: ", error);
@@ -80,7 +81,7 @@ export default class WelcomeScreen extends Component {
           <TextInput
             style={styles.formTextInput}
             placeholder ={"First Name"}
-            maxLength ={8}
+            maxLength ={10}
             onChangeText={(text)=>{
               this.setState({
                 firstName: text
@@ -159,7 +160,7 @@ export default class WelcomeScreen extends Component {
           <View style={styles.modalBackButton}>
             <TouchableOpacity
               style={styles.cancelButton}
-              onPress={()=>this.setState({"isVisible":false})}
+              onPress={()=>this.setState({"isModalVisible":false})}
             >
             <Text style={{color:'#ff5722'}}>Cancel</Text>
             </TouchableOpacity>

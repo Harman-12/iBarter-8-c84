@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TextInput,KeyboardAvoidingView,TouchableOpacity,Alert, ToastAndroid } from 'react-native';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase'
+import 'firebase/firestore';
 import db from '../config';
 import AppHeader from '../components/AppHeader'
 
@@ -17,10 +18,10 @@ export default class ExchangeScreen extends Component{
 
   addItem=(itemName, description)=>{
     var userName = this.state.userName
-    db.collection("exchange_requests").add({
-      "username"    : userName,
-      "item_name"   : itemName,
-      "description" : description
+    db.collection('exchange_requests').add({
+      'username' : userName,
+      'item_name': itemName,
+      'description' : description
      })
      .catch(function(error) {
         console.error("Error adding document: ", error);
@@ -53,12 +54,12 @@ export default class ExchangeScreen extends Component{
   render(){
     return(
       <View style={{flex:1}}>
-      <AppHeader/>
+      <AppHeader navigation ={this.props.navigation}/>
       <KeyboardAvoidingView style={{flex:1,justifyContent:'center', alignItems:'center'}}>
         <TextInput
           style={styles.formTextInput}
           placeholder ={"Item Name"}
-          maxLength ={8}
+          maxLength ={10}
           onChangeText={(text)=>{
             this.setState({
               itemName: text

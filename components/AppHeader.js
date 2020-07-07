@@ -1,28 +1,29 @@
 import React, { Component} from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { Header } from 'react-native-elements';
+import { Header , Icon} from 'react-native-elements';
 
-export default class AppHeader extends Component {
-    render(){
-        return(
+const AppHeader = props => {
+    return (
           
                 <Header 
-                    containerStyle={{borderBottomColor:'#191b83', borderBottomWidth:2}}
+                    containerStyle={{borderBottomColor:'blue', borderBottomWidth:2}}
                     placement="center"
                     backgroundColor = {'white'}
-                    leftComponent={<Image
+                    leftComponent={<Icon name='bars' type='font-awesome' color='#696969' onPress={() => props.navigation.toggleDrawer()}/>}
+                    rightComponent={<Image
                         style={styles.tinyLogo}
                         source={require('../assets/icon-barter.png')}
                     />}
                     centerComponent = {{
                         text : 'iBarter App',
-                        style : { color: '#ff914d', fontSize: 20}
+                        style : { color: '#ff914d', fontSize: 21}
                     }}
                 />
       
-        );
-    }
-}
+                );
+            };
+            
+            export default AppHeader;
 
 const styles = StyleSheet.create({
     tinyLogo: {
