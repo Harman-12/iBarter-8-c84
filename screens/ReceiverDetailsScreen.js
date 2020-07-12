@@ -11,6 +11,7 @@ export default class ReceiverDetailsScreen extends Component{
     super(props);
     this.state={
       userId          : firebase.auth().currentUser.email,
+      userName        :'',
       receiverId      : this.props.navigation.getParam('details')["username"],
       exchangeId       : this.props.navigation.getParam('details')["exchangeId"],
       itemName        : this.props.navigation.getParam('details')["item_name"],
@@ -22,7 +23,17 @@ export default class ReceiverDetailsScreen extends Component{
     }
   }
 
-
+  getUserDetails=(userId)=>{
+    db.collection("users").where('email_id','==', userId).get()
+    .then((snapshot)=>{
+      snapshot.forEach((doc) => {
+        console.log(doc.data().first_name);
+        this.setState({
+          userName  :doc.data().first_name + " " + doc.data().last_name
+        })
+      })
+    })
+  }
 
 getRecieverDetails(){
   db.collection('users').where('username','==',this.state.receiverId).get()
@@ -53,10 +64,22 @@ updateBarterStatus=()=>{
   })
 }
 
-
+addNotification=()=>{
+  var message = this.state.userName + " has shown interest in exchanging the item"
+    db.collection("all_notifications").add({
+      "targeted_user_id"    : this.state.receiverId,
+      "donor_id"            : this.state.userId,
+      "exchangeId"          : this.state.exchangeId,
+      "item_name"           : this.state.itemName,
+      "date"                : firebase.firestore.FieldValue.serverTimestamp(),
+      "notification_status" : "unread",
+      "message"             : message
+    })
+}
 
 componentDidMount(){
   this.getRecieverDetails()
+  this.getUserDetails(this.state.userId)
 }
 
 
@@ -114,6 +137,7 @@ componentDidMount(){
                   style={styles.button}
                   onPress={()=>{
                     this.updateBarterStatus()
+                    this.addNotification()
                     this.props.navigation.navigate('MyBarters')
                   }}>
                 <Text>I want to Exchange</Text>

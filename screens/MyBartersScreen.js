@@ -14,11 +14,22 @@ export default class MyBartersScreen extends Component {
      super()
      this.state = {
        userId : firebase.auth().currentUser.email,
+       userName : "",
        allBarters : []
      }
      this.requestRef= null
    }
 
+   getDonorDetails=(userId)=>{
+    db.collection("users").where("email_id","==", userId).get()
+    .then((snapshot)=>{
+      snapshot.forEach((doc) => {
+        this.setState({
+          "userName" : doc.data().first_name + " " + doc.data().last_name
+        })
+      });
+    })
+  }
 
    getAllBarters =()=>{
      this.requestRef = db.collection("all_barters").where("donor_id" ,'==', this.state.userId)
@@ -26,6 +37,47 @@ export default class MyBartersScreen extends Component {
        var allBarters = snapshot.docs.map(document => document.data());
        this.setState({
          allBarters : allBarters,
+       });
+     })
+   }
+
+   sendItem=(itemDetails)=>{
+    if(itemDetails.request_status === "Item Sent"){
+      var requestStatus = "Donor Interested"
+      db.collection("all_barters").doc(itemDetails.doc_id).update({
+        "request_status" : "Donor Interested"
+      })
+      this.sendNotification(itemDetails,requestStatus)
+    }
+    else{
+      var requestStatus = "Item Sent"
+      db.collection("all_barters").doc(itemDetails.doc_id).update({
+        "request_status" : "Item Sent"
+      })
+      this.sendNotification(itemDetails,requestStatus)
+    }
+  }
+
+   sendNotification=(itemDetails,requestStatus)=>{
+    var exchangeId = itemDetails.exchange_id
+    var donorId = itemDetails.donor_id
+     db.collection("all_notifications")
+     .where("exchangeId",'==',exchangeId)
+     .where("donor_id","==",donorId)
+     .get()
+     .then((snapshot)=>{
+       snapshot.forEach((doc) => {
+         var message = ""
+         if(requestStatus === "Item Sent"){
+           message = this.state.userName + " sent you item"
+         }else{
+            message =  this.state.userName  + " has shown interest in exchanging the item"
+         }
+         db.collection("all_notifications").doc(doc.id).update({
+           "message": message,
+           "notification_status" : "unread",
+           "date"                : firebase.firestore.FieldValue.serverTimestamp()
+         })
        });
      })
    }
@@ -40,8 +92,19 @@ export default class MyBartersScreen extends Component {
        leftElement={<Icon name="exchange" type="font-awesome" color ='orange'/>}
        titleStyle={{ color: 'black', fontWeight: 'bold' }}
        rightElement={
-           <TouchableOpacity style={styles.button}>
-             <Text style={{color:'#ffff'}}>Exchange</Text>
+           <TouchableOpacity style={[
+            styles.button,
+            {
+              backgroundColor : item.request_status === "Item Sent" ? "orange" : "#ff5722"
+            }
+          ]}
+          onPress = {()=>{
+            this.sendItem(item)
+          }}
+         >
+           <Text style={{color:'#ffff'}}>{
+             item.request_status === "Item Sent" ? "Item Sent" : "Send Item"
+           }</Text>
            </TouchableOpacity>
          }
        bottomDivider
@@ -51,6 +114,7 @@ export default class MyBartersScreen extends Component {
 
    componentDidMount(){
      this.getAllBarters()
+     this.getDonorDetails(this.state.userId)
    }
 
    componentWillUnmount(){
@@ -60,7 +124,7 @@ export default class MyBartersScreen extends Component {
    render(){
      return(
        <View style={{flex:1}}>
-         <AppHeader/>
+         <AppHeader navigation ={this.props.navigation}/>
          <View style={{flex:1}}>
            {
              this.state.allBarters.length === 0
