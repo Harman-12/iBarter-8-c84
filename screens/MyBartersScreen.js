@@ -21,7 +21,7 @@ export default class MyBartersScreen extends Component {
    }
 
    getDonorDetails=(userId)=>{
-    db.collection("users").where("email_id","==", userId).get()
+    db.collection("users").where("username","==", userId).get()
     .then((snapshot)=>{
       snapshot.forEach((doc) => {
         this.setState({
@@ -34,10 +34,15 @@ export default class MyBartersScreen extends Component {
    getAllBarters =()=>{
      this.requestRef = db.collection("all_barters").where("donor_id" ,'==', this.state.userId)
      .onSnapshot((snapshot)=>{
-       var allBarters = snapshot.docs.map(document => document.data());
-       this.setState({
-         allBarters : allBarters,
-       });
+      var allBarters = []
+      snapshot.docs.map((doc) =>{
+        var donation = doc.data()
+        donation["doc_id"] = doc.id
+        allBarters.push(donation)
+      });
+      this.setState({
+        allBarters : allBarters
+      });
      })
    }
 
@@ -95,7 +100,7 @@ export default class MyBartersScreen extends Component {
            <TouchableOpacity style={[
             styles.button,
             {
-              backgroundColor : item.request_status === "Item Sent" ? "orange" : "#ff5722"
+              backgroundColor : item.request_status === "Item Sent" ? "blue" : "#ff5722"
             }
           ]}
           onPress = {()=>{

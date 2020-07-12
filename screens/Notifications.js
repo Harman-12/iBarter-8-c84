@@ -7,7 +7,7 @@ import * as firebase from 'firebase'
 import 'firebase/firestore';
 import db from '../config';
 
-export default class NotificationScreen extends Component{
+export default class Notifications extends Component{
   constructor(props) {
     super(props);
 
@@ -20,7 +20,7 @@ export default class NotificationScreen extends Component{
   }
 
   getNotifications=()=>{
-    this.requestRef = db.collection("all_notifications")
+    this.notificationRef = db.collection("all_notifications")
     .where("notification_status", "==", "unread")
     .where("targeted_user_id",'==',this.state.userId)
     .onSnapshot((snapshot)=>{
@@ -41,7 +41,7 @@ export default class NotificationScreen extends Component{
   }
 
   componentWillUnmount(){
-    this.notificationRef()
+    this.notificationRef();
   }
 
   keyExtractor = (item, index) => index.toString()
@@ -51,7 +51,7 @@ export default class NotificationScreen extends Component{
         <ListItem
           key={index}
           leftElement={<Icon name="bell" type="font-awesome" color ='orange'/>}
-          title={item.book_name}
+          title={item.item_name}
           titleStyle={{ color: 'blue', fontWeight: 'bold' }}
           subtitle={item.message}
           subtitleStyle={{ color: 'orange', fontWeight: 'bold' }}
