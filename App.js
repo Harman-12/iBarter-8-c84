@@ -16,7 +16,8 @@ export default function App() {
 
 const switchNavigator = createSwitchNavigator({
   WelcomeScreen:{screen: WelcomeScreen},
-  AppDrawerNavigation:{screen: AppDrawerNavigation}
+  AppDrawerNavigation:{screen: AppDrawerNavigation},
+  BottomTab: {screen: bottomTabNavigator},
 })
 
 const AppContainer =  createAppContainer(switchNavigator);

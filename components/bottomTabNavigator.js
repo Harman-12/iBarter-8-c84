@@ -2,13 +2,12 @@ import React from 'react';
 import { Image } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import HomeScreen from '../screens/HomeScreen';
+import { AppStackNavigator } from './AppStackNavigator'
 import ExchangeScreen from '../screens/ExchangeScreen';
-
-
 
 export const bottomTabNavigator = createBottomTabNavigator({
     HomeScreen : {
-        screen: HomeScreen,
+        screen: AppStackNavigator,
         navigationOptions :{
         tabBarIcon : <Image source={require("../assets/home.png")} style={{width:37, height:37}}/>,
         tabBarLabel : "Home",

@@ -5,6 +5,7 @@ import {createDrawerNavigator} from 'react-navigation-drawer';
 import SettingsScreen from '../screens/SettingsScreen';
 import customSideBarMenu from '../components/customSideBarMenu';
 import {bottomTabNavigator} from '../components/bottomTabNavigator';
+import MyBartersScreen from '../screens/MyBartersScreen';
 
 export const AppDrawerNavigation = createDrawerNavigator({
   '-' : {
@@ -12,10 +13,13 @@ export const AppDrawerNavigation = createDrawerNavigator({
     },
     Home : {
       screen : bottomTabNavigator,
-      },
+    },
+    MyBarters:{
+      screen : MyBartersScreen,
+    },
     Settings : {
       screen : SettingsScreen
-      }
+    }
     },
     {
       contentComponent:customSideBarMenu
