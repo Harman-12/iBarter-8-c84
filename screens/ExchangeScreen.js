@@ -60,7 +60,7 @@ export default class ExchangeScreen extends Component{
   render(){
     return(
       <View style={{flex:1}}>
-      <AppHeader navigation ={this.props.navigation}/>
+      <AppHeader/>
       <KeyboardAvoidingView style={{flex:1,justifyContent:'center', alignItems:'center'}}>
         <TextInput
           style={styles.formTextInput}

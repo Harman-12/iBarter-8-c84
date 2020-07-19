@@ -62,7 +62,7 @@ componentDidMount(){
         return(
 
               <View style={{ alignItems: 'center',justifyContent: 'center'}} >
-                <AppHeader navigation ={this.props.navigation}/>
+                <AppHeader/>
                 <View style={{flex:1,width:'100%',alignItems: 'center'}}>
                 <Avatar
                   rounded

@@ -65,7 +65,7 @@ export default class Notifications extends Component{
     return(
       <View style={styles.container}>
         <View style={{flex:0.1}}>
-          <AppHeader navigation={this.props.navigation}/>
+          <AppHeader/>
         </View>
         <View style={{flex:0.9}}>
           {

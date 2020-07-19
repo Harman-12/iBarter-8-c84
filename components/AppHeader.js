@@ -35,7 +35,8 @@ export default class AppHeader extends Component{
               onPress={() =>this.props.navigation.navigate('Notifications')}/>
              <Badge
               value={this.state.value}
-             containerStyle={{ position: 'absolute', top: -4, right: -4 , backgroundColor: '#1111a1'}}/>
+              badgeStyle={{color: '#1111a1'}}
+             containerStyle={{ position: 'absolute', top: -4, right: -4 }}/>
           </View>
         )
       }
